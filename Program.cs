@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Collections.Immutable;
 using System.Net;
 using System.Net.Sockets;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -69,7 +70,7 @@ static async Task<IPAddress[]> GetHostAddressesAsync(string serviceName, Cancell
 
 public static class HttpContextExtensions
 {
-    private static readonly HashSet<string> HeadersToExclude = new() { "Host" };
+    private static readonly ImmutableHashSet<string> HeadersToExclude = ImmutableHashSet.Create<string>("Host");
     
     public static async Task<HttpResponseMessage> Forward(this HttpRequest httpRequest, HttpClient httpClient, HostString host, string path, byte[]? requestBody, CancellationToken cancellationToken)
     {
